@@ -24,26 +24,26 @@ export default function About() {
         >
           <div className="mb-6 flex justify-center">
             <div className="relative h-32 w-32 overflow-hidden rounded-full border-4 border-purple-500/30">
-              <img src="/placeholder.svg?height=128&width=128" alt="Profile" className="h-full w-full object-cover" />
+              <img src="/photo_2025-03-04_14-11-26.jpg" alt="Profil rasmi" className="h-full w-full object-cover" />
             </div>
           </div>
 
           <div className="space-y-3">
             <div className="flex items-center gap-3">
               <User className="h-5 w-5 text-purple-400" />
-              <span>John Doe</span>
+              <span>Shohjahon Erkinov</span>
             </div>
-            <div className="flex items-center gap-3">
-              <Mail className="h-5 w-5 text-purple-400" />
-              <span>john.doe@example.com</span>
+            <div className="flex items-start gap-3">
+              <Mail className="h-5 w-5 text-purple-400 mt-0.5" />
+              <span className="break-all">shohjahonerkinov200710@gmail.com</span>
             </div>
             <div className="flex items-center gap-3">
               <MapPin className="h-5 w-5 text-purple-400" />
-              <span>New York, USA</span>
+              <span>Farg'ona, Toshloq</span>
             </div>
             <div className="flex items-center gap-3">
               <Calendar className="h-5 w-5 text-purple-400" />
-              <span>5+ Years Experience</span>
+              <span>1+ Yillik Tajriba</span>
             </div>
           </div>
         </motion.div>
@@ -54,15 +54,12 @@ export default function About() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.4 }}
         >
-          <h3 className="mb-4 text-xl font-semibold text-purple-400">Full Stack Developer</h3>
+          <h3 className="mb-4 text-xl font-semibold text-purple-400">Frontend Dasturchi</h3>
           <p className="mb-4 text-gray-300">
-            I'm a passionate full-stack developer with expertise in building modern web applications. I specialize in
-            React, Next.js, TypeScript, and Node.js, creating responsive and user-friendly interfaces with clean,
-            maintainable code.
+            Men zamonaviy veb interfeyslar yaratishga ixtisoslashgan frontend dasturchiman. React, Next.js va TypeScript texnologiyalarida ishlayman, foydalanuvchilar uchun qulay va chiroyli interfeyslar yaratishga qaratilganman.
           </p>
           <p className="text-gray-300">
-            When I'm not coding, you can find me exploring new technologies, contributing to open-source projects, or
-            sharing my knowledge through blog posts and community events.
+            Kod yozishdan tashqari vaqtimda yangi frontend texnologiyalarini o'rganish va ochiq manbali loyihalarni o'rganishni yoqtiraman. Tez orada o'zim bilimlarimni blog postlar orqali ulashishni rejalashtiryapman.
           </p>
 
           <motion.button
@@ -70,7 +67,9 @@ export default function About() {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            Download CV
+            <a href="/resume.pdf" download>
+              CV Yuklab Olish
+            </a>
           </motion.button>
         </motion.div>
       </div>
