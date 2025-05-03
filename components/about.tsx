@@ -54,12 +54,12 @@ export default function About() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.4 }}
         >
-          <h3 className="mb-4 text-xl font-semibold text-purple-400">Frontend Dasturchi</h3>
+          <h3 className="mb-4 text-xl font-semibold text-purple-400">Frontend Developer</h3>
           <p className="mb-4 text-gray-300">
-            Men zamonaviy veb interfeyslar yaratishga ixtisoslashgan frontend dasturchiman. React, Next.js va TypeScript texnologiyalarida ishlayman, foydalanuvchilar uchun qulay va chiroyli interfeyslar yaratishga qaratilganman.
+            I'm a frontend developer specialized in creating modern web interfaces. I work with React, Next.js, and TypeScript technologies, focused on building user-friendly and aesthetically pleasing interfaces.
           </p>
           <p className="text-gray-300">
-            Kod yozishdan tashqari vaqtimda yangi frontend texnologiyalarini o'rganish va ochiq manbali loyihalarni o'rganishni yoqtiraman. Tez orada o'zim bilimlarimni blog postlar orqali ulashishni rejalashtiryapman.
+            When I'm not coding, I enjoy learning new frontend technologies and exploring open-source projects. I'm planning to start sharing my knowledge through blog posts in the near future.
           </p>
 
           <motion.button
@@ -68,7 +68,7 @@ export default function About() {
             whileTap={{ scale: 0.95 }}
           >
             <a href="/resume.pdf" download>
-              CV Yuklab Olish
+              Downlod Resume
             </a>
           </motion.button>
         </motion.div>

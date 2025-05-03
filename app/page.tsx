@@ -15,7 +15,6 @@ export default function Home() {
   const [activeSection, setActiveSection] = useState("about")
 
   useEffect(() => {
-    // Simulate loading time
     const timer = setTimeout(() => {
       setIsLoading(false)
     }, 2500)

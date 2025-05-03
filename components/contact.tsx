@@ -28,12 +28,10 @@ export default function Contact() {
     e.preventDefault()
     setIsSubmitting(true)
 
-    // Simulate form submission
     setTimeout(() => {
       setIsSubmitting(false)
       setIsSubmitted(true)
 
-      // Reset form after showing success message
       setTimeout(() => {
         setIsSubmitted(false)
         setFormState({
@@ -70,9 +68,9 @@ export default function Contact() {
               <div className="flex h-12 w-12 items-center justify-center rounded-full bg-purple-500/20">
                 <Mail className="h-5 w-5 text-purple-400" />
               </div>
-              <div>
+              <div className="min-w-0">
                 <h4 className="text-sm font-medium text-gray-400">Email</h4>
-                <p className="text-white">john.doe@example.com</p>
+                <p className="text-white break-words">shohjahonerkinov200710@gmail.com</p>
               </div>
             </div>
 
@@ -82,7 +80,7 @@ export default function Contact() {
               </div>
               <div>
                 <h4 className="text-sm font-medium text-gray-400">Phone</h4>
-                <p className="text-white">+1 (555) 123-4567</p>
+                <p className="text-white">+998 (93) 581 26 12</p>
               </div>
             </div>
 
@@ -92,15 +90,21 @@ export default function Contact() {
               </div>
               <div>
                 <h4 className="text-sm font-medium text-gray-400">Location</h4>
-                <p className="text-white">New York, USA</p>
+                <p className="text-white">Fargana, Uzbekistan</p>
               </div>
             </div>
           </div>
 
-          <div className="h-48 rounded-xl bg-gray-800/50 backdrop-blur-sm">
-            {/* Map placeholder */}
-            <div className="flex h-full items-center justify-center text-gray-400">Interactive Map</div>
+          <div className="h-[400px] rounded-xl bg-gray-800/50 backdrop-blur-sm overflow-hidden">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3480.510569799292!2d71.76795918363862!3d40.58662674964166!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNDDCsDM1JzExLjIiTiA3McKwNDYnMTUuNSJF!5e0!3m2!1suz!2s!4v1745497469040!5m2!1suz!2s"
+              className="w-full h-full border-0"
+              // allowFullScreen=""
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            ></iframe>
           </div>
+
         </motion.div>
 
         <motion.div

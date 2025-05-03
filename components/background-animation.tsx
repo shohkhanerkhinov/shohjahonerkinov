@@ -13,7 +13,6 @@ export default function BackgroundAnimation() {
     const ctx = canvas.getContext("2d")
     if (!ctx) return
 
-    // Set canvas dimensions
     const setCanvasDimensions = () => {
       canvas.width = window.innerWidth
       canvas.height = window.innerHeight
@@ -22,7 +21,6 @@ export default function BackgroundAnimation() {
     setCanvasDimensions()
     window.addEventListener("resize", setCanvasDimensions)
 
-    // Create particles
     const particles: Particle[] = []
     const particleCount = 100
 
