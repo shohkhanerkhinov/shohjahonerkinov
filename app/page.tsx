@@ -9,12 +9,15 @@ import Contact from "@/components/contact"
 import SideMenu from "@/components/side-menu"
 import LoadingAnimation from "@/components/loading-animation"
 import BackgroundAnimation from "@/components/background-animation"
+import { useMobile } from "@/hooks/use-mobile"
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true)
   const [activeSection, setActiveSection] = useState("about")
+  const isMobile = useMobile()
 
   useEffect(() => {
+    // Simulate loading time
     const timer = setTimeout(() => {
       setIsLoading(false)
     }, 2500)
@@ -44,13 +47,15 @@ export default function Home() {
           >
             <BackgroundAnimation />
 
-            <SideMenu
-              sections={sections.map((s) => ({ id: s.id, label: s.label }))}
-              activeSection={activeSection}
-              setActiveSection={setActiveSection}
-            />
+            {!isMobile && (
+              <SideMenu
+                sections={sections.map((s) => ({ id: s.id, label: s.label }))}
+                activeSection={activeSection}
+                setActiveSection={setActiveSection}
+              />
+            )}
 
-            <main className="flex-1 overflow-y-auto p-8">
+            <main className={`flex-1 overflow-y-auto p-8 ${isMobile ? "pt-16" : ""}`}>
               <AnimatePresence mode="wait">
                 {sections.map(
                   (section) =>
@@ -69,6 +74,14 @@ export default function Home() {
                 )}
               </AnimatePresence>
             </main>
+
+            {isMobile && (
+              <SideMenu
+                sections={sections.map((s) => ({ id: s.id, label: s.label }))}
+                activeSection={activeSection}
+                setActiveSection={setActiveSection}
+              />
+            )}
           </motion.div>
         )}
       </AnimatePresence>

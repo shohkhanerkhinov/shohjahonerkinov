@@ -1,6 +1,9 @@
 "use client"
 
-import { motion } from "framer-motion"
+import { useState } from "react"
+import { motion, AnimatePresence } from "framer-motion"
+import { Menu, X } from "lucide-react"
+import { useMobile } from "@/hooks/use-mobile"
 
 interface SideMenuProps {
   sections: { id: string; label: string }[]
@@ -9,16 +12,109 @@ interface SideMenuProps {
 }
 
 export default function SideMenu({ sections, activeSection, setActiveSection }: SideMenuProps) {
+  const isMobile = useMobile()
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen)
+  }
+
+  const handleSectionClick = (sectionId: string) => {
+    setActiveSection(sectionId)
+    if (isMobile) {
+      setIsMenuOpen(false)
+    }
+  }
+
+  // Mobil uchun hamburger menu tugmasi
+  if (isMobile) {
+    return (
+      <>
+        <motion.button
+          className="fixed right-4 top-4 z-50 flex h-10 w-10 items-center justify-center rounded-full bg-gray-900/80 text-white backdrop-blur-md"
+          onClick={toggleMenu}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          whileTap={{ scale: 0.9 }}
+        >
+          {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+        </motion.button>
+
+        <AnimatePresence>
+          {isMenuOpen && (
+            <motion.div
+              className="fixed inset-0 z-40 flex flex-col bg-gray-900/95 p-6 backdrop-blur-md"
+              initial={{ opacity: 0, x: "100%" }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: "100%" }}
+              transition={{ duration: 0.3 }}
+            >
+              <div className="mt-16 flex-1">
+                <motion.h1
+                  className="mb-8 text-2xl font-bold text-white"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.2 }}
+                >
+                  My Portfolio
+                </motion.h1>
+
+                <nav>
+                  <ul className="space-y-6">
+                    {sections.map((section, index) => (
+                      <motion.li
+                        key={section.id}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.3 + index * 0.1 }}
+                      >
+                        <button
+                          onClick={() => handleSectionClick(section.id)}
+                          className={`text-left text-xl font-medium ${activeSection === section.id ? "text-purple-400" : "text-gray-400"
+                            }`}
+                        >
+                          {section.label}
+                        </button>
+                      </motion.li>
+                    ))}
+                  </ul>
+                </nav>
+              </div>
+
+              <motion.div
+                className="flex items-center gap-6 text-sm text-gray-400"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.8 }}
+              >
+                <a href="#" className="hover:text-white">
+                  GitHub
+                </a>
+                <a href="#" className="hover:text-white">
+                  LinkedIn
+                </a>
+                <a href="#" className="hover:text-white">
+                  Twitter
+                </a>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </>
+    )
+  }
+
+  // Desktop uchun yon menu
   return (
     <motion.div
-      className="flex h-full w-64 md:w-56 sm:w-48 w-40 flex-col bg-gray-900/50 p-6 backdrop-blur-md"
+      className="flex h-full w-64 flex-col bg-gray-900/50 p-6 backdrop-blur-md"
       initial={{ x: -100, opacity: 0 }}
       animate={{ x: 0, opacity: 1 }}
       transition={{ duration: 0.5, delay: 0.2 }}
     >
       <div className="mb-12">
         <motion.h1
-          className="text-xl sm:text-2xl md:text-3xl font-bold text-white"
+          className="text-2xl font-bold text-white"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
@@ -56,7 +152,7 @@ export default function SideMenu({ sections, activeSection, setActiveSection }: 
 
       <div className="mt-auto">
         <motion.div
-          className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4 text-sm text-gray-400"
+          className="flex items-center gap-4 text-sm text-gray-400"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.8 }}

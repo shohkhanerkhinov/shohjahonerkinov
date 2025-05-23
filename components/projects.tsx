@@ -42,7 +42,7 @@ export default function Projects() {
         Projects
       </motion.h2>
 
-      <div className="grid gap-6 md:grid-cols-2">
+      <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2">
         {projects.map((project, index) => (
           <motion.div
             key={project.title}
