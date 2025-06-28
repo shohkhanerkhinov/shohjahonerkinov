@@ -1,35 +1,48 @@
-"use client"
+"use client";
 
-import { motion } from "framer-motion"
-import { Github, ExternalLink } from "lucide-react"
+import { motion } from "framer-motion";
+import { Github, ExternalLink } from "lucide-react";
+import GitProblem from "./gitProblem";
 
 export default function Projects() {
   const projects = [
     {
       title: "E-Commerce Platform",
-      description: "A full-featured online store with product catalog, cart, and payment integration.",
+      description:
+        "A full-featured online store with product catalog, cart, and payment integration.",
       technologies: ["Next.js", "TypeScript", "Stripe", "Tailwind CSS"],
-      image: "/placeholder.svg?height=200&width=400",
+      image: "/job-huntly.png",
+      githubLink:"<GitProblem />",
+      liveLink: "https://job-huntly-zeta.vercel.app/",
     },
     {
       title: "Task Management App",
-      description: "A collaborative task management tool with real-time updates and team features.",
+      description:
+        "A collaborative task management tool with real-time updates and team features.",
       technologies: ["React", "Firebase", "Redux", "Styled Components"],
-      image: "/placeholder.svg?height=200&width=400",
+      image: "/task-manager.png",
+      githubLink: "https://github.com/yourusername/task-manager",
+      liveLink: "https://task-manager-demo.vercel.app/",
     },
     {
       title: "Portfolio Website",
-      description: "A responsive portfolio website with animations and interactive elements.",
+      description:
+        "A responsive portfolio website with animations and interactive elements.",
       technologies: ["Next.js", "Framer Motion", "Tailwind CSS", "TypeScript"],
-      image: "/placeholder.svg?height=200&width=400",
+      image: "/portfolio.png",
+      githubLink: "https://github.com/yourusername/portfolio",
+      liveLink: "https://my-portfolio-demo.vercel.app/",
     },
     {
       title: "Weather Dashboard",
-      description: "A weather application with location-based forecasts and interactive maps.",
+      description:
+        "A weather application with location-based forecasts and interactive maps.",
       technologies: ["React", "OpenWeather API", "Leaflet", "CSS Modules"],
-      image: "/placeholder.svg?height=200&width=400",
+      image: "/weather-app.png",
+      githubLink: "https://github.com/yourusername/weather-dashboard",
+      liveLink: "https://weather-dashboard-demo.vercel.app/",
     },
-  ]
+  ];
 
   return (
     <div className="h-full">
@@ -60,30 +73,43 @@ export default function Projects() {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
               <div className="absolute bottom-4 right-4 flex gap-2 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                <motion.a
-                  href="#"
-                  className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-800/80 text-white backdrop-blur-sm transition-colors hover:bg-purple-500/80"
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.9 }}
-                >
-                  <Github className="h-5 w-5" />
-                </motion.a>
-                <motion.a
-                  href="#"
-                  className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-800/80 text-white backdrop-blur-sm transition-colors hover:bg-purple-500/80"
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.9 }}
-                >
-                  <ExternalLink className="h-5 w-5" />
-                </motion.a>
+                {project.githubLink && (
+                  <motion.a
+                    href={project.githubLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-800/80 text-white backdrop-blur-sm transition-colors hover:bg-purple-500/80"
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
+                  >
+                    <Github className="h-5 w-5" />
+                  </motion.a>
+                )}
+                {project.liveLink && (
+                  <motion.a
+                    href={project.liveLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-800/80 text-white backdrop-blur-sm transition-colors hover:bg-purple-500/80"
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
+                  >
+                    <ExternalLink className="h-5 w-5" />
+                  </motion.a>
+                )}
               </div>
             </div>
             <div className="p-6">
-              <h3 className="mb-2 text-xl font-semibold text-white">{project.title}</h3>
+              <h3 className="mb-2 text-xl font-semibold text-white">
+                {project.title}
+              </h3>
               <p className="mb-4 text-gray-300">{project.description}</p>
               <div className="flex flex-wrap gap-2">
                 {project.technologies.map((tech) => (
-                  <span key={tech} className="rounded-full bg-gray-700/50 px-3 py-1 text-xs text-gray-300">
+                  <span
+                    key={tech}
+                    className="rounded-full bg-gray-700/50 px-3 py-1 text-xs text-gray-300"
+                  >
                     {tech}
                   </span>
                 ))}
@@ -93,5 +119,5 @@ export default function Projects() {
         ))}
       </div>
     </div>
-  )
+  );
 }
