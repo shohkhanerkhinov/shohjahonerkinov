@@ -1,30 +1,34 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { motion, AnimatePresence } from "framer-motion"
-import { Menu, X } from "lucide-react"
-import { useMobile } from "@/hooks/use-mobile"
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Menu, X } from "lucide-react";
+import { useMobile } from "@/hooks/use-mobile";
 
 interface SideMenuProps {
-  sections: { id: string; label: string }[]
-  activeSection: string
-  setActiveSection: (section: string) => void
+  sections: { id: string; label: string }[];
+  activeSection: string;
+  setActiveSection: (section: string) => void;
 }
 
-export default function SideMenu({ sections, activeSection, setActiveSection }: SideMenuProps) {
-  const isMobile = useMobile()
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
+export default function SideMenu({
+  sections,
+  activeSection,
+  setActiveSection,
+}: SideMenuProps) {
+  const isMobile = useMobile();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen)
-  }
+    setIsMenuOpen(!isMenuOpen);
+  };
 
   const handleSectionClick = (sectionId: string) => {
-    setActiveSection(sectionId)
+    setActiveSection(sectionId);
     if (isMobile) {
-      setIsMenuOpen(false)
+      setIsMenuOpen(false);
     }
-  }
+  };
 
   // Mobil uchun hamburger menu tugmasi
   if (isMobile) {
@@ -70,8 +74,11 @@ export default function SideMenu({ sections, activeSection, setActiveSection }: 
                       >
                         <button
                           onClick={() => handleSectionClick(section.id)}
-                          className={`text-left text-xl font-medium ${activeSection === section.id ? "text-purple-400" : "text-gray-400"
-                            }`}
+                          className={`text-left text-xl font-medium ${
+                            activeSection === section.id
+                              ? "text-purple-400"
+                              : "text-gray-400"
+                          }`}
                         >
                           {section.label}
                         </button>
@@ -87,21 +94,30 @@ export default function SideMenu({ sections, activeSection, setActiveSection }: 
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.8 }}
               >
-                <a href="#" className="hover:text-white">
+                <a
+                  href="https://github.com/shohkhanerkhinov"
+                  className="hover:text-white"
+                >
                   GitHub
                 </a>
-                <a href="#" className="hover:text-white">
+                <a
+                  href="http://www.linkedin.com/in/shohkxan-erkhinov-a69707350"
+                  className="hover:text-white"
+                >
                   LinkedIn
                 </a>
-                <a href="#" className="hover:text-white">
-                  Twitter
+                <a
+                  href="https://t.me/shohjahon_erkinov_a"
+                  className="hover:text-white"
+                >
+                  Telegram
                 </a>
               </motion.div>
             </motion.div>
           )}
         </AnimatePresence>
       </>
-    )
+    );
   }
 
   // Desktop uchun yon menu
@@ -134,8 +150,11 @@ export default function SideMenu({ sections, activeSection, setActiveSection }: 
             >
               <button
                 onClick={() => setActiveSection(section.id)}
-                className={`group relative w-full text-left text-lg font-medium transition-colors ${activeSection === section.id ? "text-white" : "text-gray-400 hover:text-white"
-                  }`}
+                className={`group relative w-full text-left text-lg font-medium transition-colors ${
+                  activeSection === section.id
+                    ? "text-white"
+                    : "text-gray-400 hover:text-white"
+                }`}
               >
                 {activeSection === section.id && (
                   <motion.span
@@ -157,17 +176,26 @@ export default function SideMenu({ sections, activeSection, setActiveSection }: 
           animate={{ opacity: 1 }}
           transition={{ delay: 0.8 }}
         >
-          <a href="https://github.com/shohkhanerkhinov" className="hover:text-white">
+          <a
+            href="https://github.com/shohkhanerkhinov"
+            className="hover:text-white"
+          >
             GitHub
           </a>
-          <a href="http://www.linkedin.com/in/shohkxan-erkhinov-a69707350" className="hover:text-white">
+          <a
+            href="http://www.linkedin.com/in/shohkxan-erkhinov-a69707350"
+            className="hover:text-white"
+          >
             LinkedIn
           </a>
-          <a href="https://t.me/shohjahon_erkinov_a" className="hover:text-white">
+          <a
+            href="https://t.me/shohjahon_erkinov_a"
+            className="hover:text-white"
+          >
             Telegram
           </a>
         </motion.div>
       </div>
     </motion.div>
-  )
+  );
 }
