@@ -7,41 +7,41 @@ import GitProblem from "./gitProblem";
 export default function Projects() {
   const projects = [
     {
-      title: "E-Commerce Platform",
+      title: "JobHuntly",
       description:
         "A full-featured online store with product catalog, cart, and payment integration.",
-      technologies: ["Next.js", "TypeScript", "Stripe", "Tailwind CSS"],
+      technologies: ["Next.js", "TypeScript", "Shadcn/ui", "Tailwind CSS", "React Hook Form", "Zod"],
       image: "/job-huntly.png",
       githubLink:"<GitProblem />",
       liveLink: "https://job-huntly-zeta.vercel.app/",
     },
     {
-      title: "Task Management App",
+      title: "Invois-App",
       description:
-        "A collaborative task management tool with real-time updates and team features.",
-      technologies: ["React", "Firebase", "Redux", "Styled Components"],
-      image: "/task-manager.png",
+        "Task organization – statuses like To-do / Progress / Done, deadlines, priorities",
+      technologies: ["React.js", "TypeScript", "Tailwind CSS", "ShadCN/ui", "React Hook Form", "Zod"],
+      image: "/Invoice-app.png",
       githubLink: "https://github.com/yourusername/task-manager",
-      liveLink: "https://task-manager-demo.vercel.app/",
+      liveLink: "https://invois-app-s.vercel.app/",
     },
-    {
-      title: "Portfolio Website",
-      description:
-        "A responsive portfolio website with animations and interactive elements.",
-      technologies: ["Next.js", "Framer Motion", "Tailwind CSS", "TypeScript"],
-      image: "/portfolio.png",
-      githubLink: "https://github.com/yourusername/portfolio",
-      liveLink: "https://my-portfolio-demo.vercel.app/",
-    },
-    {
-      title: "Weather Dashboard",
-      description:
-        "A weather application with location-based forecasts and interactive maps.",
-      technologies: ["React", "OpenWeather API", "Leaflet", "CSS Modules"],
-      image: "/weather-app.png",
-      githubLink: "https://github.com/yourusername/weather-dashboard",
-      liveLink: "https://weather-dashboard-demo.vercel.app/",
-    },
+    // {
+    //   title: "Portfolio Website",
+    //   description:
+    //     "A responsive portfolio website with animations and interactive elements.",
+    //   technologies: ["Next.js", "Framer Motion", "Tailwind CSS", "TypeScript"],
+    //   image: "/portfolio.png",
+    //   githubLink: "https://github.com/yourusername/portfolio",
+    //   liveLink: "https://my-portfolio-demo.vercel.app/",
+    // },
+    // {
+    //   title: "Weather Dashboard",
+    //   description:
+    //     "A weather application with location-based forecasts and interactive maps.",
+    //   technologies: ["React", "OpenWeather API", "Leaflet", "CSS Modules"],
+    //   image: "/weather-app.png",
+    //   githubLink: "https://github.com/yourusername/weather-dashboard",
+    //   liveLink: "https://weather-dashboard-demo.vercel.app/",
+    // },
   ];
 
   return (

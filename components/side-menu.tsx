@@ -157,14 +157,14 @@ export default function SideMenu({ sections, activeSection, setActiveSection }: 
           animate={{ opacity: 1 }}
           transition={{ delay: 0.8 }}
         >
-          <a href="#" className="hover:text-white">
+          <a href="https://github.com/shohkhanerkhinov" className="hover:text-white">
             GitHub
           </a>
-          <a href="#" className="hover:text-white">
+          <a href="http://www.linkedin.com/in/shohkxan-erkhinov-a69707350" className="hover:text-white">
             LinkedIn
           </a>
-          <a href="#" className="hover:text-white">
-            Twitter
+          <a href="https://t.me/shohjahon_erkinov_a" className="hover:text-white">
+            Telegram
           </a>
         </motion.div>
       </div>
