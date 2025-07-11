@@ -12,7 +12,7 @@ export default function Projects() {
         "A full-featured online store with product catalog, cart, and payment integration.",
       technologies: ["Next.js", "TypeScript", "Shadcn/ui", "Tailwind CSS", "React Hook Form", "Zod"],
       image: "/job-huntly.png",
-      githubLink:"<GitProblem />",
+      githubLink:"https://github.com/shohkhanerkhinov/JobHuntly",
       liveLink: "https://job-huntly-zeta.vercel.app/",
     },
     {
@@ -21,7 +21,7 @@ export default function Projects() {
         "Task organization – statuses like To-do / Progress / Done, deadlines, priorities",
       technologies: ["React.js", "TypeScript", "Tailwind CSS", "ShadCN/ui", "React Hook Form", "Zod"],
       image: "/Invoice-app.png",
-      githubLink: "https://github.com/yourusername/task-manager",
+      githubLink: "https://github.com/shohkhanerkhinov/invois-app-s",
       liveLink: "https://invois-app-s.vercel.app/",
     },
     // {
