@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { useMobile } from "@/hooks/use-mobile";
+import UserProfile from "./user-profile";
 
 interface SideMenuProps {
   sections: { id: string; label: string }[];
@@ -68,7 +69,7 @@ export default function SideMenu({
                     {sections.map((section, index) => (
                       <motion.li
                         key={section.id}
-                        initial={{ opacity: 0, y: 20 }}
+                        initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.3 + index * 0.1 }}
                       >
@@ -89,29 +90,32 @@ export default function SideMenu({
               </div>
 
               <motion.div
-                className="flex items-center gap-6 text-sm text-gray-400"
+                className="flex items-center justify-between"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.8 }}
               >
-                <a
-                  href="https://github.com/shohkhanerkhinov"
-                  className="hover:text-white"
-                >
-                  GitHub
-                </a>
-                <a
-                  href="http://www.linkedin.com/in/shohkxan-erkhinov-a69707350"
-                  className="hover:text-white"
-                >
-                  LinkedIn
-                </a>
-                <a
-                  href="https://t.me/shohjahon_erkinov_a"
-                  className="hover:text-white"
-                >
-                  Telegram
-                </a>
+                <div className="flex items-center gap-6 text-sm text-gray-400">
+                  <a
+                    href="https://github.com/shohkhanerkhinov"
+                    className="hover:text-white"
+                  >
+                    GitHub
+                  </a>
+                  <a
+                    href="http://www.linkedin.com/in/shohkxan-erkhinov-a69707350"
+                    className="hover:text-white"
+                  >
+                    LinkedIn
+                  </a>
+                  <a
+                    href="https://t.me/shohjahon_erkinov_a"
+                    className="hover:text-white"
+                  >
+                    Telegram
+                  </a>
+                </div>
+                <UserProfile />
               </motion.div>
             </motion.div>
           )}
@@ -169,32 +173,31 @@ export default function SideMenu({
         </ul>
       </nav>
 
+      {/* Pastki qism (ijtimoiy tarmoqlar + UserProfile) */}
       <div className="mt-auto">
-        <motion.div
-          className="flex items-center gap-4 text-sm text-gray-400"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.8 }}
-        >
-          <a
-            href="https://github.com/shohkhanerkhinov"
-            className="hover:text-white"
-          >
-            GitHub
-          </a>
-          <a
-            href="http://www.linkedin.com/in/shohkxan-erkhinov-a69707350"
-            className="hover:text-white"
-          >
-            LinkedIn
-          </a>
-          <a
-            href="https://t.me/shohjahon_erkinov_a"
-            className="hover:text-white"
-          >
-            Telegram
-          </a>
-        </motion.div>
+        <div className="flex flex-col gap-4">
+          <div className="flex items-center gap-4 text-sm text-gray-400">
+            <a
+              href="https://github.com/shohkhanerkhinov"
+              className="hover:text-white transition-colors"
+            >
+              GitHub
+            </a>
+            <a
+              href="http://www.linkedin.com/in/shohkxan-erkhinov-a69707350"
+              className="hover:text-white transition-colors"
+            >
+              LinkedIn
+            </a>
+            <a
+              href="https://t.me/shohjahon_erkinov_a"
+              className="hover:text-white transition-colors"
+            >
+              Telegram
+            </a>
+          </div>
+          <UserProfile />
+        </div>
       </div>
     </motion.div>
   );

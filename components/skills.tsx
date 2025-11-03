@@ -4,21 +4,31 @@ import { motion } from "framer-motion"
 
 export default function Skills() {
   const skills = [
-    { name: "React", width: "95%" },
-    { name: "Next.js", width: "90%" },
-    { name: "TypeScript", width: "85%" },
-    { name: "JavaScript", width: "85%" },
-    { name: "CSS/Tailwind", width: "90%" },
-    { name: "Git", width: "80%" },
+    { name: "React", level: 90 },
+    { name: "Next.js", level: 85 },
+    { name: "TypeScript", level: 80 },
+    { name: "Node.js", level: 75 },
+    { name: "CSS/Tailwind", level: 85 },
+    { name: "GraphQL", level: 70 },
   ]
 
   const technologies = [
-    "React",
-    "Next.js",
-    "TypeScript",
     "JavaScript",
-    "Tailwind",
-    "Git"
+    "HTML5",
+    "CSS3",
+    "Redux",
+    "MongoDB",
+    "PostgreSQL",
+    "Git",
+    "Docker",
+    "AWS",
+    "Firebase",
+    "REST API",
+    "Jest",
+    "Framer Motion",
+    "Figma",
+    "Webpack",
+    "CI/CD",
   ]
 
   return (
@@ -45,12 +55,13 @@ export default function Skills() {
               <div key={skill.name}>
                 <div className="mb-2 flex justify-between">
                   <span>{skill.name}</span>
+                  <span>{skill.level}%</span>
                 </div>
                 <div className="h-2 w-full overflow-hidden rounded-full bg-gray-700">
                   <motion.div
                     className="h-full bg-gradient-to-r from-purple-500 to-pink-500"
                     initial={{ width: 0 }}
-                    animate={{ width: skill.width }}
+                    animate={{ width: `${skill.level}%` }}
                     transition={{ duration: 1, delay: 0.3 + index * 0.1 }}
                   />
                 </div>

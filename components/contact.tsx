@@ -4,7 +4,7 @@ import type React from "react"
 
 import { useState } from "react"
 import { motion } from "framer-motion"
-import { Send, Mail, Phone, MapPin } from "lucide-react"
+import { Send, Mail, Phone, MapPin, AlertCircle, CheckCircle } from "lucide-react"
 
 export default function Contact() {
   const [formState, setFormState] = useState({
@@ -16,32 +16,84 @@ export default function Contact() {
 
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
+  const [error, setError] = useState("")
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormState({
       ...formState,
       [e.target.name]: e.target.value,
     })
+    setError("")
+    setIsSubmitted(false)
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
+    setError("")
+    setIsSubmitted(false)
 
-    setTimeout(() => {
-      setIsSubmitting(false)
+    try {
+      console.log("Xabar yuborilmoqda:", {
+        name: formState.name,
+        email: formState.email,
+        subject: formState.subject,
+      })
+
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: formState.name.trim(),
+          email: formState.email.trim(),
+          subject: formState.subject.trim(),
+          message: formState.message.trim(),
+        }),
+      })
+
+      console.log("Response status:", response.status)
+
+      // Response'ni tekshirish
+      if (!response.ok) {
+        let errorMessage = "Xabar yuborishda xatolik yuz berdi"
+
+        try {
+          const errorData = await response.json()
+          errorMessage = errorData.error || errorMessage
+        } catch (jsonError) {
+          console.error("Error response JSON parse xatosi:", jsonError)
+          errorMessage = `Server xatosi (${response.status})`
+        }
+
+        throw new Error(errorMessage)
+      }
+
+      // Muvaffaqiyatli response'ni parse qilish
+      let responseData
+      try {
+        responseData = await response.json()
+      } catch (jsonError) {
+        console.error("Success response JSON parse xatosi:", jsonError)
+        throw new Error("Server javobini o'qishda xatolik")
+      }
+
+      console.log("Xabar muvaffaqiyatli yuborildi:", responseData)
+
       setIsSubmitted(true)
+      setFormState({ name: "", email: "", subject: "", message: "" })
 
+      // Success message'ni 7 soniyadan keyin yashirish
       setTimeout(() => {
         setIsSubmitted(false)
-        setFormState({
-          name: "",
-          email: "",
-          subject: "",
-          message: "",
-        })
-      }, 3000)
-    }, 1500)
+      }, 7000)
+    } catch (err: any) {
+      console.error("Contact form error:", err)
+      setError(err.message || "Xabar yuborishda kutilmagan xatolik yuz berdi")
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
@@ -68,9 +120,9 @@ export default function Contact() {
               <div className="flex h-12 w-12 items-center justify-center rounded-full bg-purple-500/20">
                 <Mail className="h-5 w-5 text-purple-400" />
               </div>
-              <div className="min-w-0">
+              <div>
                 <h4 className="text-sm font-medium text-gray-400">Email</h4>
-                <p className="text-white break-words">shohjahonerkinov200710@gmail.com</p>
+                <p className="text-white">shohkxanerkhinov@gmail.com</p>
               </div>
             </div>
 
@@ -90,21 +142,14 @@ export default function Contact() {
               </div>
               <div>
                 <h4 className="text-sm font-medium text-gray-400">Location</h4>
-                <p className="text-white">Fargana, Uzbekistan</p>
+                <p className="text-white">Uzbekistan</p>
               </div>
             </div>
           </div>
 
-          <div className="h-[400px] rounded-xl bg-gray-800/50 backdrop-blur-sm overflow-hidden">
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3480.510569799292!2d71.76795918363862!3d40.58662674964166!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNDDCsDM1JzExLjIiTiA3McKwNDYnMTUuNSJF!5e0!3m2!1suz!2s!4v1745497469040!5m2!1suz!2s"
-              className="w-full h-full border-0"
-              // allowFullScreen=""
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-            ></iframe>
+          <div className="h-48 rounded-xl bg-gray-800/50 backdrop-blur-sm">
+            <div className="flex h-full items-center justify-center text-gray-400">Interactive Map</div>
           </div>
-
         </motion.div>
 
         <motion.div
@@ -123,6 +168,7 @@ export default function Contact() {
                 value={formState.name}
                 onChange={handleChange}
                 required
+                minLength={2}
                 className="w-full rounded-lg border border-gray-700 bg-gray-800/50 px-4 py-3 text-white placeholder-gray-400 backdrop-blur-sm focus:border-purple-500 focus:outline-none"
               />
             </div>
@@ -147,6 +193,7 @@ export default function Contact() {
                 value={formState.subject}
                 onChange={handleChange}
                 required
+                minLength={3}
                 className="w-full rounded-lg border border-gray-700 bg-gray-800/50 px-4 py-3 text-white placeholder-gray-400 backdrop-blur-sm focus:border-purple-500 focus:outline-none"
               />
             </div>
@@ -158,10 +205,33 @@ export default function Contact() {
                 value={formState.message}
                 onChange={handleChange}
                 required
+                minLength={10}
                 rows={4}
                 className="w-full rounded-lg border border-gray-700 bg-gray-800/50 px-4 py-3 text-white placeholder-gray-400 backdrop-blur-sm focus:border-purple-500 focus:outline-none"
               />
             </div>
+
+            {error && (
+              <motion.div
+                className="flex items-center gap-2 rounded-lg bg-red-900/20 p-3 text-red-400"
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+              >
+                <AlertCircle className="h-5 w-5 flex-shrink-0" />
+                <span>{error}</span>
+              </motion.div>
+            )}
+
+            {isSubmitted && (
+              <motion.div
+                className="flex items-center gap-2 rounded-lg bg-green-900/20 p-3 text-green-400"
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+              >
+                <CheckCircle className="h-5 w-5 flex-shrink-0" />
+                <span>✅ Xabaringiz muvaffaqiyatli yuborildi! Tez orada javob beraman.</span>
+              </motion.div>
+            )}
 
             <motion.button
               type="submit"
@@ -192,11 +262,7 @@ export default function Contact() {
                       d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                     ></path>
                   </svg>
-                  <span>Sending...</span>
-                </>
-              ) : isSubmitted ? (
-                <>
-                  <span>Message Sent!</span>
+                  <span>Yuborilmoqda...</span>
                 </>
               ) : (
                 <>

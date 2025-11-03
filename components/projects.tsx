@@ -1,10 +1,19 @@
-"use client";
+"use client"
 
-import { motion } from "framer-motion";
-import { Github, ExternalLink } from "lucide-react";
-import GitProblem from "./gitProblem";
+import type React from "react"
+
+import { motion } from "framer-motion"
+import { Github, ExternalLink } from "lucide-react"
+import { useState } from "react"
+import { useAuth } from "@/contexts/auth-context"
+import SecurityModal from "./security-modal"
+import AuthModal from "./auth-modal"
 
 export default function Projects() {
+  const { isAuthenticated } = useAuth()
+  const [showSecurityModal, setShowSecurityModal] = useState(false)
+  const [showAuthModal, setShowAuthModal] = useState(false)
+
   const projects = [
     {
       title: "JobHuntly",
@@ -24,25 +33,32 @@ export default function Projects() {
       githubLink: "https://github.com/shohkhanerkhinov/invois-app-s",
       liveLink: "https://invois-app-s.vercel.app/",
     },
-    // {
-    //   title: "Portfolio Website",
-    //   description:
-    //     "A responsive portfolio website with animations and interactive elements.",
-    //   technologies: ["Next.js", "Framer Motion", "Tailwind CSS", "TypeScript"],
-    //   image: "/portfolio.png",
-    //   githubLink: "https://github.com/yourusername/portfolio",
-    //   liveLink: "https://my-portfolio-demo.vercel.app/",
-    // },
-    // {
-    //   title: "Weather Dashboard",
-    //   description:
-    //     "A weather application with location-based forecasts and interactive maps.",
-    //   technologies: ["React", "OpenWeather API", "Leaflet", "CSS Modules"],
-    //   image: "/weather-app.png",
-    //   githubLink: "https://github.com/yourusername/weather-dashboard",
-    //   liveLink: "https://weather-dashboard-demo.vercel.app/",
-    // },
   ];
+
+
+  const handleGitHubClick = (e: React.MouseEvent) => {
+    e.preventDefault()
+
+    if (isAuthenticated) {
+      // GitHub havolani ochish
+      window.open("https://github.com/yourusername/project", "_blank")
+    } else {
+      // Xavfsizlik modalini ko'rsatish
+      setShowSecurityModal(true)
+    }
+  }
+
+  const handleSecurityModalRegister = () => {
+    setShowSecurityModal(false)
+    setShowAuthModal(true)
+  }
+
+  const handleAuthSuccess = () => {
+    // Muvaffaqiyatli ro'yxatdan o'tgandan keyin GitHub havolani ochish
+    setTimeout(() => {
+      window.open("https://github.com/yourusername/project", "_blank")
+    }, 500)
+  }
 
   return (
     <div className="h-full">
@@ -73,43 +89,30 @@ export default function Projects() {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
               <div className="absolute bottom-4 right-4 flex gap-2 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                {project.githubLink && (
-                  <motion.a
-                    href={project.githubLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-800/80 text-white backdrop-blur-sm transition-colors hover:bg-purple-500/80"
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.9 }}
-                  >
-                    <Github className="h-5 w-5" />
-                  </motion.a>
-                )}
-                {project.liveLink && (
-                  <motion.a
-                    href={project.liveLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-800/80 text-white backdrop-blur-sm transition-colors hover:bg-purple-500/80"
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.9 }}
-                  >
-                    <ExternalLink className="h-5 w-5" />
-                  </motion.a>
-                )}
+                <motion.button
+                  onClick={handleGitHubClick}
+                  className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-800/80 text-white backdrop-blur-sm transition-colors hover:bg-purple-500/80"
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                >
+                  <Github className="h-5 w-5" />
+                </motion.button>
+                <motion.a
+                  href="#"
+                  className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-800/80 text-white backdrop-blur-sm transition-colors hover:bg-purple-500/80"
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                >
+                  <ExternalLink className="h-5 w-5" />
+                </motion.a>
               </div>
             </div>
             <div className="p-6">
-              <h3 className="mb-2 text-xl font-semibold text-white">
-                {project.title}
-              </h3>
+              <h3 className="mb-2 text-xl font-semibold text-white">{project.title}</h3>
               <p className="mb-4 text-gray-300">{project.description}</p>
               <div className="flex flex-wrap gap-2">
                 {project.technologies.map((tech) => (
-                  <span
-                    key={tech}
-                    className="rounded-full bg-gray-700/50 px-3 py-1 text-xs text-gray-300"
-                  >
+                  <span key={tech} className="rounded-full bg-gray-700/50 px-3 py-1 text-xs text-gray-300">
                     {tech}
                   </span>
                 ))}
@@ -118,6 +121,13 @@ export default function Projects() {
           </motion.div>
         ))}
       </div>
+      <SecurityModal
+        isOpen={showSecurityModal}
+        onClose={() => setShowSecurityModal(false)}
+        onRegister={handleSecurityModalRegister}
+      />
+
+      <AuthModal isOpen={showAuthModal} onClose={() => setShowAuthModal(false)} onSuccess={handleAuthSuccess} />
     </div>
-  );
+  )
 }

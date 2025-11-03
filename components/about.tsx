@@ -1,9 +1,12 @@
-"use client"
+"use client";
 
-import { motion } from "framer-motion"
-import { User, Mail, MapPin, Calendar } from "lucide-react"
+import { motion } from "framer-motion";
+import { User, Mail, MapPin, Calendar, Users } from "lucide-react";
+import { useVisitorCounter } from "@/hooks/use-visitor-counter";
 
 export default function About() {
+  const visitorCount = useVisitorCounter();
+
   return (
     <div className="h-full">
       <motion.h2
@@ -24,7 +27,11 @@ export default function About() {
         >
           <div className="mb-6 flex justify-center">
             <div className="relative h-32 w-32 overflow-hidden rounded-full border-4 border-purple-500/30">
-              <img src="/photo_2025-03-04_14-11-26.jpg" alt="Profil rasmi" className="h-full w-full object-cover" />
+              <img
+                src="/photo_2025-03-04_14-11-26.jpg"
+                alt="Profile"
+                className="h-full w-full object-cover"
+              />
             </div>
           </div>
 
@@ -33,9 +40,9 @@ export default function About() {
               <User className="h-5 w-5 text-purple-400" />
               <span>Shohjahon Erkinov</span>
             </div>
-            <div className="flex items-start gap-3">
-              <Mail className="h-5 w-5 text-purple-400 mt-0.5" />
-              <span className="break-all">shohjahonerkinov200710@gmail.com</span>
+            <div className="flex items-center gap-3">
+              <Mail className="h-5 w-5 text-purple-400" />
+              <span>shohkxanerkhinov@gmail.com</span>
             </div>
             <div className="flex items-center gap-3">
               <MapPin className="h-5 w-5 text-purple-400" />
@@ -44,6 +51,10 @@ export default function About() {
             <div className="flex items-center gap-3">
               <Calendar className="h-5 w-5 text-purple-400" />
               <span>1+ Yillik Tajriba</span>
+            </div>
+            <div className="flex items-center gap-3 border-t border-gray-700 pt-3">
+              <Users className="h-5 w-5 text-purple-400" />
+              <span>{visitorCount} kishi portfoliyoni ko'rgan</span>
             </div>
           </div>
         </motion.div>
@@ -54,12 +65,19 @@ export default function About() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.4 }}
         >
-          <h3 className="mb-4 text-xl font-semibold text-purple-400">Frontend Developer</h3>
+          <h3 className="mb-4 text-xl font-semibold text-purple-400">
+            Frontend Developer
+          </h3>
           <p className="mb-4 text-gray-300">
-            I'm a frontend developer specialized in creating modern web interfaces. I work with React, Next.js, and TypeScript technologies, focused on building user-friendly and aesthetically pleasing interfaces.
+            I'm a frontend developer specialized in creating modern web
+            interfaces. I work with React, Next.js, and TypeScript technologies,
+            focused on building user-friendly and aesthetically pleasing
+            interfaces.
           </p>
           <p className="text-gray-300">
-            When I'm not coding, I enjoy learning new frontend technologies and exploring open-source projects. I'm planning to start sharing my knowledge through blog posts in the near future.
+            When I'm not coding, I enjoy learning new frontend technologies and
+            exploring open-source projects. I'm planning to start sharing my
+            knowledge through blog posts in the near future.
           </p>
 
           <motion.button
@@ -67,12 +85,10 @@ export default function About() {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            <a href="/resume.pdf" download>
-              Downlod Resume
-            </a>
+            Download CV
           </motion.button>
         </motion.div>
       </div>
     </div>
-  )
+  );
 }

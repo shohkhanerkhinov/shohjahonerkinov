@@ -6,15 +6,19 @@ import About from "@/components/about"
 import Skills from "@/components/skills"
 import Projects from "@/components/projects"
 import Contact from "@/components/contact"
+import AdminPanel from "@/components/admin-panel"
 import SideMenu from "@/components/side-menu"
 import LoadingAnimation from "@/components/loading-animation"
 import BackgroundAnimation from "@/components/background-animation"
 import { useMobile } from "@/hooks/use-mobile"
+import { useAuth } from "@/contexts/auth-context"
+import EduResources from "@/components/edu-resources"
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true)
   const [activeSection, setActiveSection] = useState("about")
   const isMobile = useMobile()
+  const { user } = useAuth()
 
   useEffect(() => {
     // Simulate loading time
@@ -29,8 +33,14 @@ export default function Home() {
     { id: "about", label: "About", component: <About /> },
     { id: "skills", label: "Skills", component: <Skills /> },
     { id: "projects", label: "Projects", component: <Projects /> },
+    { id: "edu-resources", label: "EduResources", component: <EduResources /> },
     { id: "contact", label: "Contact", component: <Contact /> },
   ]
+
+  // Admin uchun qo'shimcha bo'lim
+  if (user && user.email === "admin@example.com") {
+    sections.push({ id: "admin", label: "Admin", component: <AdminPanel /> })
+  }
 
   return (
     <div className="relative h-screen w-full overflow-hidden bg-black text-white">
