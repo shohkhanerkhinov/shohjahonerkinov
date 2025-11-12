@@ -15,6 +15,10 @@ interface SiteCardProps {
 export default function SiteCard({ title, description, image, link, index }: SiteCardProps) {
   const { userCount, incrementVisitorCount } = useSiteCounter(title)
 
+  const handleClick = () => {
+    incrementVisitorCount()
+  }
+
   return (
     <motion.div
       className="group relative overflow-hidden rounded-xl bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-sm transition-all hover:shadow-lg hover:shadow-purple-500/20"
@@ -26,7 +30,7 @@ export default function SiteCard({ title, description, image, link, index }: Sit
       {/* Rasm */}
       <div className="relative h-48 overflow-hidden bg-gray-700">
         <img
-          src={image || "/placeholder.svg"}
+          src={image || "/placeholder.svg?height=192&width=400&query=education"}
           alt={title}
           className="h-full w-full object-cover transition-transform group-hover:scale-110"
         />
@@ -46,7 +50,7 @@ export default function SiteCard({ title, description, image, link, index }: Sit
         {/* Link tugmasi */}
         <ProtectedLink
           href={link}
-          onClick={incrementVisitorCount}
+          onClick={handleClick}
           className="inline-block rounded-lg bg-gradient-to-r from-purple-500 to-pink-500 px-4 py-2 text-sm font-medium text-white transition-transform hover:scale-105"
         >
           Saytni ochish

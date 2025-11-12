@@ -1,42 +1,32 @@
 "use client"
 
-import type React from "react"
-
-import { useAuth } from "@/contexts/auth-context"
-import { useState } from "react"
-import SecurityModal from "./security-modal"
-import { ExternalLink } from "lucide-react"
+import Link from "next/link"
+import React from "react"
 
 interface ProtectedLinkProps {
   href: string
   children: React.ReactNode
   className?: string
+  onClick?: (e?: React.MouseEvent<HTMLAnchorElement>) => void
 }
 
-export default function ProtectedLink({ href, children, className = "" }: ProtectedLinkProps) {
-  const { user } = useAuth()
-  const [showSecurityModal, setShowSecurityModal] = useState(false)
-
-  const handleClick = (e: React.MouseEvent) => {
-    if (!user) {
-      e.preventDefault()
-      setShowSecurityModal(true)
+export default function ProtectedLink({
+  href,
+  children,
+  className,
+  onClick,
+}: ProtectedLinkProps) {
+  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (onClick) {
+      e.preventDefault() // linkni darhol ochmasin
+      onClick(e) // avval click funksiyasini bajarsin
+      window.open(href, "_blank") // keyin yangi oynada ochsin
     }
   }
 
   return (
-    <>
-      <a
-        href={user ? href : "#"}
-        target="_blank"
-        rel="noopener noreferrer"
-        onClick={handleClick}
-        className={`inline-flex items-center gap-2 ${className}`}
-      >
-        {children}
-        <ExternalLink size={16} />
-      </a>
-      {showSecurityModal && <SecurityModal onClose={() => setShowSecurityModal(false)} />}
-    </>
+    <Link href={href} className={className} onClick={handleClick}>
+      {children}
+    </Link>
   )
 }
