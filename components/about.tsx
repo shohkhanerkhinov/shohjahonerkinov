@@ -80,13 +80,15 @@ export default function About() {
             knowledge through blog posts in the near future.
           </p>
 
-          <motion.button
-            className="mt-6 self-start rounded-full bg-gradient-to-r from-purple-500 to-pink-500 px-6 py-2 font-medium text-white transition-transform hover:scale-105"
+          <motion.a
+            href="/resume.pdf"
+            download
+            className="mt-6 self-start rounded-full bg-gradient-to-r from-purple-500 to-pink-500 px-6 py-2 font-medium text-white transition-transform hover:scale-105 inline-block"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
             Download CV
-          </motion.button>
+          </motion.a>
         </motion.div>
       </div>
     </div>

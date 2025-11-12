@@ -1,7 +1,6 @@
 "use client"
 
 import type React from "react"
-
 import { motion } from "framer-motion"
 import { Github, ExternalLink } from "lucide-react"
 import { useState } from "react"
@@ -13,6 +12,7 @@ export default function Projects() {
   const { isAuthenticated } = useAuth()
   const [showSecurityModal, setShowSecurityModal] = useState(false)
   const [showAuthModal, setShowAuthModal] = useState(false)
+  const [pendingGithubLink, setPendingGithubLink] = useState<string | null>(null)
 
   const projects = [
     {
@@ -21,29 +21,26 @@ export default function Projects() {
         "A full-featured online store with product catalog, cart, and payment integration.",
       technologies: ["Next.js", "TypeScript", "Shadcn/ui", "Tailwind CSS", "React Hook Form", "Zod"],
       image: "/job-huntly.png",
-      githubLink:"https://github.com/shohkhanerkhinov/JobHuntly",
+      githubLink: "https://github.com/shohkhanerkhinov/JobHuntly",
       liveLink: "https://job-huntly-zeta.vercel.app/",
     },
     {
       title: "Invois-App",
       description:
-        "Task organization – statuses like To-do / Progress / Done, deadlines, priorities",
+        "Task organization – statuses like To-do / Progress / Done, deadlines, priorities.",
       technologies: ["React.js", "TypeScript", "Tailwind CSS", "ShadCN/ui", "React Hook Form", "Zod"],
       image: "/Invoice-app.png",
       githubLink: "https://github.com/shohkhanerkhinov/invois-app-s",
       liveLink: "https://invois-app-s.vercel.app/",
     },
-  ];
+  ]
 
-
-  const handleGitHubClick = (e: React.MouseEvent) => {
+  const handleGitHubClick = (e: React.MouseEvent, githubLink: string) => {
     e.preventDefault()
-
     if (isAuthenticated) {
-      // GitHub havolani ochish
-      window.open("https://github.com/yourusername/project", "_blank")
+      window.open(githubLink, "_blank")
     } else {
-      // Xavfsizlik modalini ko'rsatish
+      setPendingGithubLink(githubLink)
       setShowSecurityModal(true)
     }
   }
@@ -54,10 +51,11 @@ export default function Projects() {
   }
 
   const handleAuthSuccess = () => {
-    // Muvaffaqiyatli ro'yxatdan o'tgandan keyin GitHub havolani ochish
-    setTimeout(() => {
-      window.open("https://github.com/yourusername/project", "_blank")
-    }, 500)
+    if (pendingGithubLink) {
+      setTimeout(() => {
+        window.open(pendingGithubLink, "_blank")
+      }, 500)
+    }
   }
 
   return (
@@ -89,16 +87,21 @@ export default function Projects() {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
               <div className="absolute bottom-4 right-4 flex gap-2 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                {/* GitHub tugmasi */}
                 <motion.button
-                  onClick={handleGitHubClick}
+                  onClick={(e) => handleGitHubClick(e, project.githubLink)}
                   className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-800/80 text-white backdrop-blur-sm transition-colors hover:bg-purple-500/80"
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.9 }}
                 >
                   <Github className="h-5 w-5" />
                 </motion.button>
+
+                {/* Live link tugmasi */}
                 <motion.a
-                  href="#"
+                  href={project.liveLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-800/80 text-white backdrop-blur-sm transition-colors hover:bg-purple-500/80"
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.9 }}
@@ -112,7 +115,10 @@ export default function Projects() {
               <p className="mb-4 text-gray-300">{project.description}</p>
               <div className="flex flex-wrap gap-2">
                 {project.technologies.map((tech) => (
-                  <span key={tech} className="rounded-full bg-gray-700/50 px-3 py-1 text-xs text-gray-300">
+                  <span
+                    key={tech}
+                    className="rounded-full bg-gray-700/50 px-3 py-1 text-xs text-gray-300"
+                  >
                     {tech}
                   </span>
                 ))}
@@ -121,13 +127,18 @@ export default function Projects() {
           </motion.div>
         ))}
       </div>
+
+      {/* Modallar */}
       <SecurityModal
         isOpen={showSecurityModal}
         onClose={() => setShowSecurityModal(false)}
         onRegister={handleSecurityModalRegister}
       />
-
-      <AuthModal isOpen={showAuthModal} onClose={() => setShowAuthModal(false)} onSuccess={handleAuthSuccess} />
+      <AuthModal
+        isOpen={showAuthModal}
+        onClose={() => setShowAuthModal(false)}
+        onSuccess={handleAuthSuccess}
+      />
     </div>
   )
 }

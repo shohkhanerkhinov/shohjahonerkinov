@@ -9,7 +9,7 @@ export default function Skills() {
     { name: "TypeScript", level: 80 },
     { name: "Node.js", level: 75 },
     { name: "CSS/Tailwind", level: 85 },
-    { name: "GraphQL", level: 70 },
+    { name: "JavaScript", level: 70 },
   ]
 
   const technologies = [
@@ -17,18 +17,10 @@ export default function Skills() {
     "HTML5",
     "CSS3",
     "Redux",
-    "MongoDB",
-    "PostgreSQL",
     "Git",
-    "Docker",
-    "AWS",
-    "Firebase",
     "REST API",
-    "Jest",
-    "Framer Motion",
     "Figma",
-    "Webpack",
-    "CI/CD",
+
   ]
 
   return (
@@ -43,6 +35,7 @@ export default function Skills() {
       </motion.h2>
 
       <div className="grid gap-8 md:grid-cols-2">
+        {/* Core Skills */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -53,9 +46,8 @@ export default function Skills() {
           <div className="space-y-6">
             {skills.map((skill, index) => (
               <div key={skill.name}>
-                <div className="mb-2 flex justify-between">
-                  <span>{skill.name}</span>
-                  <span>{skill.level}%</span>
+                <div className="mb-2">
+                  <span>{skill.name}</span> {/* faqat skill nomi */}
                 </div>
                 <div className="h-2 w-full overflow-hidden rounded-full bg-gray-700">
                   <motion.div
@@ -70,6 +62,7 @@ export default function Skills() {
           </div>
         </motion.div>
 
+        {/* Technologies */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -84,7 +77,7 @@ export default function Skills() {
                 className="rounded-full bg-gray-800/70 px-4 py-2 text-sm backdrop-blur-sm"
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.3, delay: 0.5 + index * 0.05 }}
+                transition={{ duration: 0.3, delay: 0.05 * index }}
                 whileHover={{
                   scale: 1.05,
                   backgroundColor: "rgba(168, 85, 247, 0.2)",
