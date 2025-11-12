@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion"
 import ProtectedLink from "./protected-link"
-import { useEffect, useState } from "react"
+import { useSiteCounter } from "@/hooks/use-site-counter"
 
 interface SiteCardProps {
   title: string
@@ -13,20 +13,7 @@ interface SiteCardProps {
 }
 
 export default function SiteCard({ title, description, image, link, index }: SiteCardProps) {
-  const [userCount, setUserCount] = useState(0)
-
-  useEffect(() => {
-    // localStorage'dan sayt uchun user count'ni o'qish
-    const storedCount = localStorage.getItem(`site-${title}`)
-    setUserCount(storedCount ? Number.parseInt(storedCount) : 0)
-  }, [title])
-
-  const handleVisit = () => {
-    // User count'ni oshirish
-    const currentCount = userCount + 1
-    localStorage.setItem(`site-${title}`, currentCount.toString())
-    setUserCount(currentCount)
-  }
+  const { userCount, incrementVisitorCount } = useSiteCounter(title)
 
   return (
     <motion.div
@@ -51,7 +38,6 @@ export default function SiteCard({ title, description, image, link, index }: Sit
         <h3 className="mb-2 text-xl font-bold text-white">{title}</h3>
         <p className="mb-4 text-sm text-gray-400">{description}</p>
 
-        {/* User count */}
         <div className="mb-4 flex items-center gap-2 text-sm text-purple-400">
           <div className="h-2 w-2 rounded-full bg-purple-400" />
           <span>{userCount} kishi foydalangan</span>
@@ -60,7 +46,7 @@ export default function SiteCard({ title, description, image, link, index }: Sit
         {/* Link tugmasi */}
         <ProtectedLink
           href={link}
-          onClick={handleVisit}
+          onClick={incrementVisitorCount}
           className="inline-block rounded-lg bg-gradient-to-r from-purple-500 to-pink-500 px-4 py-2 text-sm font-medium text-white transition-transform hover:scale-105"
         >
           Saytni ochish
