@@ -54,7 +54,7 @@ export default function About() {
             </div>
             <div className="flex items-center gap-3 border-t border-gray-700 pt-3">
               <Users className="h-5 w-5 text-purple-400" />
-              <span>{visitorCount} kishi portfoliyoni ko'rgan</span>
+              <span>{visitorCount === 0 ? "..." : visitorCount} kishi portfoliyoni ko'rgan</span>
             </div>
           </div>
         </motion.div>

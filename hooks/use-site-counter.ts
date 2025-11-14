@@ -3,28 +3,44 @@
 import { useEffect, useState } from "react"
 
 export function useSiteCounter(siteTitle: string) {
-  const [userCount, setUserCount] = useState<number | null>(null)
-  const [hasVisited, setHasVisited] = useState(false)
+  const [userCount, setUserCount] = useState(0)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const storedCount = localStorage.getItem(`site-${siteTitle}`)
-      setUserCount(storedCount ? Number.parseInt(storedCount) : 0)
-
-      const visitedInSession = sessionStorage.getItem(`site-visited-${siteTitle}`)
-      setHasVisited(!!visitedInSession)
+    // Session ID yaratish
+    const getSessionId = () => {
+      let sessionId = sessionStorage.getItem(`site-session-${siteTitle}`)
+      if (!sessionId) {
+        sessionId = `session-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
+        sessionStorage.setItem(`site-session-${siteTitle}`, sessionId)
+      }
+      return sessionId
     }
+
+    const sessionId = getSessionId()
+
+    // API'dan site count'ni yangilash
+    const updateSiteCount = async () => {
+      try {
+        const response = await fetch("/api/counters/sites", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ siteId: siteTitle, sessionId }),
+        })
+        const data = await response.json()
+        setUserCount(data.count)
+      } catch (error) {
+        console.error(`Site counter error for ${siteTitle}:`, error)
+        // Fallback
+        const storedCount = localStorage.getItem(`site-${siteTitle}`)
+        setUserCount(storedCount ? Number.parseInt(storedCount) : 0)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    updateSiteCount()
   }, [siteTitle])
 
-  const incrementVisitorCount = () => {
-    if (!hasVisited && typeof window !== "undefined") {
-      const currentCount = (userCount ?? 0) + 1
-      localStorage.setItem(`site-${siteTitle}`, currentCount.toString())
-      sessionStorage.setItem(`site-visited-${siteTitle}`, "true")
-      setUserCount(currentCount)
-      setHasVisited(true)
-    }
-  }
-
-  return { userCount: userCount ?? 0, incrementVisitorCount }
+  return { userCount, loading }
 }

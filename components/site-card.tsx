@@ -13,10 +13,10 @@ interface SiteCardProps {
 }
 
 export default function SiteCard({ title, description, image, link, index }: SiteCardProps) {
-  const { userCount, incrementVisitorCount } = useSiteCounter(title)
+  const { userCount } = useSiteCounter(title)
 
   const handleClick = () => {
-    incrementVisitorCount()
+    // API avtomatik oldindan yangilangan, bu yerda xech narsa qilmasak bo'ladi
   }
 
   return (
@@ -44,7 +44,7 @@ export default function SiteCard({ title, description, image, link, index }: Sit
 
         <div className="mb-4 flex items-center gap-2 text-sm text-purple-400">
           <div className="h-2 w-2 rounded-full bg-purple-400" />
-          <span>{userCount} kishi foydalangan</span>
+          <span>{userCount === 0 ? "..." : userCount} kishi foydalangan</span>
         </div>
 
         {/* Link tugmasi */}
