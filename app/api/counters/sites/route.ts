@@ -1,48 +1,65 @@
-"use server"
+import type { NextRequest } from "next/server"
 
-// Global site visitor counters (server-side)
-const globalSiteCounters: { [key: string]: number } = {}
-const siteVisitedSessions: { [key: string]: Set<string> } = {}
+const siteCounterStore: Record<
+  string,
+  {
+    count: number
+    visitedSessions: Map<string, number>
+  }
+> = {}
 
-export async function GET(request: Request) {
+function initializeSite(siteId: string) {
+  if (!siteCounterStore[siteId]) {
+    siteCounterStore[siteId] = {
+      count: 0,
+      visitedSessions: new Map(),
+    }
+  }
+}
+
+export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url)
   const siteId = searchParams.get("siteId")
 
   if (!siteId) {
-    return Response.json(globalSiteCounters)
+    return Response.json({ error: "siteId required" }, { status: 400 })
   }
 
-  return Response.json({ count: globalSiteCounters[siteId] || 0 })
+  initializeSite(siteId)
+  return Response.json({
+    count: siteCounterStore[siteId].count,
+    timestamp: new Date().toISOString(),
+  })
 }
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   try {
     const { siteId, sessionId } = await request.json()
 
-    // Initialize counters agar mavjud bo'lmasa
-    if (!globalSiteCounters[siteId]) {
-      globalSiteCounters[siteId] = 0
-      siteVisitedSessions[siteId] = new Set<string>()
+    if (!siteId || !sessionId) {
+      return Response.json({ error: "siteId and sessionId required" }, { status: 400 })
     }
 
-    // Agar bu session allaqachon counted bo'lgan bo'lsa, qaytarish
-    if (siteVisitedSessions[siteId].has(sessionId)) {
+    initializeSite(siteId)
+
+    if (siteCounterStore[siteId].visitedSessions.has(sessionId)) {
       return Response.json({
-        count: globalSiteCounters[siteId],
+        count: siteCounterStore[siteId].count,
         alreadyCounted: true,
+        timestamp: new Date().toISOString(),
       })
     }
 
-    // Yangi visitor - counter qo'shish
-    globalSiteCounters[siteId]++
-    siteVisitedSessions[siteId].add(sessionId)
+    siteCounterStore[siteId].visitedSessions.set(sessionId, Date.now())
+    siteCounterStore[siteId].count++
 
     return Response.json({
-      count: globalSiteCounters[siteId],
+      count: siteCounterStore[siteId].count,
       alreadyCounted: false,
+      timestamp: new Date().toISOString(),
     })
   } catch (error) {
-    console.error("Error updating site count:", error)
+    console.error("Site counter error:", error)
     return Response.json({ error: "Failed to update count" }, { status: 500 })
   }
 }

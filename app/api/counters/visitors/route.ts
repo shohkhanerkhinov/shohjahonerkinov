@@ -1,29 +1,42 @@
-"use server"
+import type { NextRequest } from "next/server"
 
-// Global visitor counter (server-side)
-let globalVisitorCount = 0
-const visitedSessions = new Set<string>()
-
-export async function GET() {
-  return Response.json({ count: globalVisitorCount })
+const counterStore = {
+  visitors: 0,
+  visitedSessions: new Map<string, number>(),
 }
 
-export async function POST(request: Request) {
+export async function GET() {
+  return Response.json({
+    count: counterStore.visitors,
+    timestamp: new Date().toISOString(),
+  })
+}
+
+export async function POST(request: NextRequest) {
   try {
     const { sessionId } = await request.json()
 
-    // Agar bu session allaqachon counted bo'lgan bo'lsa, qaytarish
-    if (visitedSessions.has(sessionId)) {
-      return Response.json({ count: globalVisitorCount, alreadyCounted: true })
+    if (!sessionId) {
+      return Response.json({ error: "sessionId required" }, { status: 400 })
     }
 
-    // Yangi visitor - counter qo'shish
-    globalVisitorCount++
-    visitedSessions.add(sessionId)
+    if (counterStore.visitedSessions.has(sessionId)) {
+      return Response.json({
+        count: counterStore.visitors,
+        alreadyCounted: true,
+      })
+    }
 
-    return Response.json({ count: globalVisitorCount, alreadyCounted: false })
+    counterStore.visitedSessions.set(sessionId, Date.now())
+    counterStore.visitors++
+
+    return Response.json({
+      count: counterStore.visitors,
+      alreadyCounted: false,
+      timestamp: new Date().toISOString(),
+    })
   } catch (error) {
-    console.error("Error updating visitor count:", error)
+    console.error("Visitor counter error:", error)
     return Response.json({ error: "Failed to update count" }, { status: 500 })
   }
 }
