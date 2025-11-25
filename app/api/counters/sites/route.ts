@@ -4,7 +4,7 @@ const siteCounterStore: Record<
   string,
   {
     count: number
-    visitedSessions: Map<string, number>
+    visitedSessions: Set<string>
   }
 > = {}
 
@@ -12,7 +12,7 @@ function initializeSite(siteId: string) {
   if (!siteCounterStore[siteId]) {
     siteCounterStore[siteId] = {
       count: 0,
-      visitedSessions: new Map(),
+      visitedSessions: new Set(),
     }
   }
 }
@@ -34,7 +34,7 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const { siteId, sessionId } = await request.json()
+    const { siteId, sessionId, clientCount } = await request.json()
 
     if (!siteId || !sessionId) {
       return Response.json({ error: "siteId and sessionId required" }, { status: 400 })
@@ -42,6 +42,11 @@ export async function POST(request: NextRequest) {
 
     initializeSite(siteId)
 
+    if (clientCount && typeof clientCount === "number" && clientCount > siteCounterStore[siteId].count) {
+      siteCounterStore[siteId].count = clientCount
+    }
+
+    // Agar bu session allaqachon sanab bo'lgan bo'lsa, qayta qo'shmaymiz
     if (siteCounterStore[siteId].visitedSessions.has(sessionId)) {
       return Response.json({
         count: siteCounterStore[siteId].count,
@@ -50,8 +55,14 @@ export async function POST(request: NextRequest) {
       })
     }
 
-    siteCounterStore[siteId].visitedSessions.set(sessionId, Date.now())
+    // Yangi session - counter'ni oshiramiz
+    siteCounterStore[siteId].visitedSessions.add(sessionId)
     siteCounterStore[siteId].count++
+
+    if (siteCounterStore[siteId].visitedSessions.size > 5000) {
+      const sessionsArray = Array.from(siteCounterStore[siteId].visitedSessions)
+      siteCounterStore[siteId].visitedSessions = new Set(sessionsArray.slice(-2500))
+    }
 
     return Response.json({
       count: siteCounterStore[siteId].count,
